@@ -1,0 +1,195 @@
+@keyframes anm_rot {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.anm-rot {
+  animation-name: anm_rot;
+  animation-duration: 2.8s;
+  animation-iteration-count: 2;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes anm_rot_1 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.anm-rot-1 {
+  animation-name: anm_rot_1;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  animation-direction: alternate;
+}
+
+.animation {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+.animation .square-cog {
+  border: 1px solid black;
+  width: 10%;
+  position: relative;
+}
+.animation .square-cog:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+.animation .square-cog .circle-cog {
+  border: 1px solid red;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.animation .square-cog .circle-cog .triangle-cog {
+  position: absolute;
+  bottom: 0;
+  height: 0;
+  width: 0;
+  top: 0;
+  transform: rotate(180deg);
+}
+
+/* animation */
+/*------- customize taster -------*/
+.control-frame {
+  padding: 40px;
+  background-color: #333333;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.customize > div {
+  border: 1px solid #a454af;
+  padding: 10px;
+  display: flex;
+  margin: 5px 0;
+}
+.customize > div h4 {
+  margin: 0 15px 0 0;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.customize > div button {
+  border: none;
+  border-radius: 2px;
+  background-color: #00ffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.customize > div button:hover {
+  background-color: #2ee3e3;
+}
+.customize > div span {
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  margin: 0 10px;
+  z-index: 2;
+}
+.customize > div .limit {
+  color: white;
+  box-shadow: 0 0 5px 5px #a454af;
+  /* #d118eb */
+  /*margin-left: 30px;*/
+}
+
+.reset-frame {
+  justify-content: center;
+  align-items: center;
+}
+.reset-frame .reset-btn {
+  width: 50%;
+  height: 50%;
+}
+
+.span-light {
+  box-shadow: 0 0 5px 5px #a454af;
+}
+
+/*-------- gear icons --------*/
+.circle-cog i {
+  position: absolute;
+  font-size: 400%;
+  color: #333;
+}
+
+/*-------- button RUN --------*/
+.btn-run {
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  padding: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  cursor: pointer;
+  position: relative;
+}
+.btn-run i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 35px;
+  color: #666;
+  background-color: #eedd55;
+  position: absolute;
+  border-radius: 50%;
+  transition: color 300ms, background-color 600ms;
+}
+.btn-run i:hover {
+  color: #333;
+  background-color: #eaad55;
+}
+
+.btn-shadows {
+  box-shadow: 0px 0px 10px 5px #e32424;
+}
+
+@media only screen and (max-width: 600px) {
+  .animation {
+    width: 100%;
+  }
+  .animation .square-cog {
+    width: 40%;
+  }
+
+  .control-frame {
+    padding: 20px;
+  }
+  .control-frame .customize {
+    width: 100%;
+  }
+  .control-frame .customize > div button {
+    width: 50px;
+    height: 50px;
+  }
+  .control-frame .reset-frame .reset-btn {
+    width: 50%;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */

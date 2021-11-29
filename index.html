@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triangle Animation</title>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="css/main.css">
+	
+	<link rel="stylesheet" href="fontawesome-free-5.15.3/css/all.css">
+	<!-- <link rel="stylesheet" href="fontawesome-free-5.15.3/css/solid.css"> -->
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>	
+	<div class="control-frame">		
+		<div class="customize">
+			<div class="size-square">
+				<h4>Square</h4>
+				<button class="btn-square" onclick="changeSquare(10)">+</button>
+				<span></span><!-- value -->
+				<button class="btn-square" onclick="changeSquare(-10)">-</button>
+				<span class=""></span>
+			</div>
+			<div class="size-gear">
+				<h4>Gear</h4>
+				<button class="btn-gear" onclick="changeGear(10)">+</button>
+				<span></span><!-- value -->
+				<button class="btn-gear" onclick="changeGear(-10)">-</button>
+				<span class="limit">MIN</span>
+			</div>
+			<div class="reset-frame">
+				<button class="reset-btn" onclick="reset(132, 60)">RESET</button>
+			</div>
+		</div>
+	</div>
+	<div class="animation">
+		<div id="squareCog" class="square-cog">					
+			<div class="circle-cog anm-rot-1"> <!-- animated -->
+				<div id="triangleCog" class="triangle-cog"></div>
+				<i id="faCog" class="fas fa-cog anm-rot"></i> <!-- animated -->
+				<i class="fas fa-cog anm-rot"></i> <!-- animated -->
+				<i class="fas fa-cog anm-rot"></i> <!-- animated -->
+			</div>
+		</div>
+		<button id="btnRun" class="btn-run btn-shadows">
+			<i id="runAnimation" class="fas fa-sync-alt"></i>
+		</button>
+	</div>	
+	
+	<script>
+		
+		window.onload = function(){		
+			create_triangle();
+		}	
+		
+		const square_cog = document.getElementById("squareCog"); // square
+		const fa_cog = document.getElementsByClassName("fa-cog"); // 3 icons
+		const btn_run = document.getElementById("btnRun");
+		
+		const sizeSquare = document.querySelectorAll(".size-square span");
+		const sizeGear = document.querySelectorAll(".size-gear span");
+		const gearV = sizeGear[0];
+		const squareV = sizeSquare[0];		
+		const gearLimit = sizeGear[1];
+		const squareLimit = sizeSquare[1];		
+		
+		const squaer_MIN = 50;
+		const squaer_MAX = window.innerHeight;
+		const gear_MIN = 20;
+		// gear_MAX depend of current value square width, calculate inside function create_triangle
+		
+		// INIT span info
+		gearV.innerHTML = fa_cog[0].clientHeight;
+		squareV.innerHTML = square_cog.clientWidth + 2;
+		
+		function create_triangle(){			
+			
+			const triangle_cog = document.getElementById("triangleCog"); // triangle
+			
+			let r = (square_cog.clientWidth / 2).toPrecision(3); // radius of the circle
+			let a = (r * Math.sqrt(3)).toPrecision(3); // side of the triangle
+			let h = (3 * r / 2).toPrecision(3); // triangle height
+			let border_right = a / 2;
+			let border_top = h;
+			let border_left = a / 2;
+			let left_pos = (( square_cog.clientWidth - a ) / 2 ) - 1;
+			let fa_cog_width = fa_cog[0].clientWidth;
+				
+			let square_width = square_cog.clientWidth;
+			let gear_width = fa_cog[0].clientWidth;
+			let gear_MAX = (square_cog.clientWidth * 9/10).toPrecision(3);
+							
+			//------------------------------------------------------------
+			// creating a triangle based on the dimensions of the square
+			//------------------------------------------------------------
+			// triangle created by styling the border, height = 0 and width = 0 of the triangle element
+			// height and width are defined by border height and width
+			triangle_cog.style.left = left_pos + "px";
+			triangle_cog.style.borderRight = border_right + "px solid transparent";
+			triangle_cog.style.borderTop = border_top + "px solid red";
+			triangle_cog.style.borderLeft = border_left + "px solid transparent";
+			
+			//------------------------------------------------------------
+			// positioning icons
+			//------------------------------------------------------------
+			// right icon
+			fa_cog[0].style.right = -fa_cog_width/2 + (r - a/2) + "px";
+			fa_cog[0].style.top = (h - fa_cog_width/2) - 1 + "px";
+			
+			// left icon
+			fa_cog[1].style.left = -fa_cog_width/2 + (r - a/2) + "px";
+			fa_cog[1].style.top = (h - fa_cog_width/2) - 1 + "px";
+			
+			// top icon
+			fa_cog[2].style.right = (r - fa_cog_width/2) - 1 + "px";
+			fa_cog[2].style.top = -fa_cog_width/2 + "px";
+			
+			//------------------------------------------------------------
+			// square padding-top, button margin-top
+			//------------------------------------------------------------
+			square_cog.parentNode.style.paddingTop = fa_cog[0].clientWidth * 8/10 + "px";		
+			btn_run.style.marginTop = fa_cog[0].clientWidth * 8/10 + "px";
+			
+			
+			//------------------------------------------------------------
+			// buttons indicator 
+			//------------------------------------------------------------
+			if(square_width * 9/10 + 2 >= gear_width + 10 && square_width - 10 + 2 > squaer_MIN && square_width + 10 + 2 < squaer_MAX){
+				squareV.classList.remove("span-light");
+				squareLimit.classList.remove("limit");
+				squareLimit.innerHTML = "";
+			}else{
+				squareV.classList.add("span-light");
+				
+				if(square_width - 10 + 2 <= squaer_MIN){
+					squareLimit.classList.add("limit");
+					squareLimit.innerHTML = "MIN";
+				}
+				if(square_width + 10 + 2 >= squaer_MAX){
+					squareLimit.classList.add("limit");
+					squareLimit.innerHTML = "MAX";
+				}
+			}
+			
+			if(gear_width + 10 <= gear_MAX && gear_width - 10 >= gear_MIN ){
+				gearV.classList.remove("span-light");
+				gearLimit.classList.remove("limit");
+				gearLimit.innerHTML = "";
+			}else{
+				gearV.classList.add("span-light");
+				
+				if(gear_width + 10 > gear_MAX){
+					gearLimit.classList.add("limit");
+					gearLimit.innerHTML = "MAX";
+				}
+				
+				if(gear_width - 10 < gear_MIN){
+					gearLimit.classList.add("limit");
+					gearLimit.innerHTML = "MIN";
+				}
+			}	
+		}
+		
+		//------------------------------------------------------------
+		// RUN TASTER - call this function
+		//------------------------------------------------------------
+		function run_animation(){		
+			// add shadows class for button
+			btn_run.classList.add("btn-shadows");
+			
+			// remove animation for circle and for 3 icons
+			square_cog.children[0].classList.remove("anm-rot-1");
+			
+			for(i = 0; i < fa_cog.length; i++){
+				fa_cog[i].classList.remove("anm-rot");
+			}
+
+			// add animation class for circle and 3 icons after 100ms
+			setTimeout(() => {
+				
+				square_cog.children[0].classList.add("anm-rot-1");
+				
+				for(i = 0; i < fa_cog.length; i++){
+					fa_cog[i].classList.add("anm-rot");
+				}
+			
+			}, 100)
+		}
+		
+		//------------------------------------------------------------
+		// RUN TASTER, click on <i> element inside <button>
+		//------------------------------------------------------------
+		btn_run.children[0].addEventListener("click", (event) => {
+			if(event.target.id == "runAnimation"){
+				run_animation();
+			}
+		});		
+		
+		// when an animation done turn off taster light
+		fa_cog[0].addEventListener("webkitAnimationEnd", function(){
+			btn_run.classList.remove("btn-shadows");
+		});
+		
+		//------------------------------------------------------------
+		// Customize buttons - Change SIZE SQUARE and SIZE GEAR
+		//------------------------------------------------------------
+		function changeSquare(value){ // value +10 or -10			
+			let square_width = square_cog.clientWidth + value + 2;
+			let gear_width = fa_cog[0].clientWidth;
+						
+			if(square_width * 9/10 < gear_width || square_width < squaer_MIN || square_width > squaer_MAX){
+				square_width = square_cog.clientWidth + 2;
+			}
+			
+			// update square element and span info
+			square_cog.style.width = square_width + "px";
+			squareV.innerHTML = square_width;
+						
+			// calculate
+			create_triangle();
+		}
+		
+		function changeGear(value){ // value +10 or -10
+			let gear_width = fa_cog[0].clientWidth + value;
+			let gear_MAX = (square_cog.clientWidth * 9/10 + 2).toPrecision(3);
+			
+			if(gear_width > gear_MAX || gear_width < gear_MIN){
+				gear_width = fa_cog[0].clientWidth;
+			}
+			
+			// update <i> fontsize 
+			for(i = 0; i < fa_cog.length; i++){
+				fa_cog[i].style.fontSize = gear_width + "px";
+			}
+			
+			// span info
+			gearV.innerHTML = gear_width;
+						
+			// calculate
+			create_triangle();
+		}
+		
+		
+		//------------------------------------------------------------
+		// Reset Button - Initialization SIZE SQUARE and GEAR
+		//------------------------------------------------------------
+		function reset(sValue, gValue){
+			// update square element and span info
+			square_cog.style.width = sValue + "px";
+			squareV.innerHTML = sValue;
+		
+			// update <i> fontsize 
+			for(i = 0; i < fa_cog.length; i++){
+				fa_cog[i].style.fontSize = gValue + "px";
+			}			
+			// span info
+			gearV.innerHTML = gValue;
+			
+			// calculate
+			create_triangle();
+		}	
+	</script>
+	
+</body>
+</html>
